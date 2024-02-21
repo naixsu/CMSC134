@@ -1,5 +1,5 @@
-// vuln.c
 #include <stdio.h>
+#include <stdlib.h>
 
 void vuln() {
     char buffer[8];
@@ -8,6 +8,5 @@ void vuln() {
 
 int main() {
     vuln();
-    while(1){
-    }
+    exit(1);
 }

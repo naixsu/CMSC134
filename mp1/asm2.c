@@ -1,7 +1,7 @@
 int main() {
     __asm__("xor %eax, %eax;"
             "inc %eax;"
-            "mov %eax, %ebx;"
+            "mov %ebx, %eax;"
             "leave;"
             "ret;"
     );
