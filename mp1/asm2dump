@@ -1,5 +1,5 @@
 
-asm:     file format elf32-i386
+asm2:     file format elf32-i386
 
 
 Disassembly of section .init:
@@ -171,15 +171,13 @@ Disassembly of section .text:
     11ad:	f3 0f 1e fb          	endbr32 
     11b1:	55                   	push   %ebp
     11b2:	89 e5                	mov    %esp,%ebp
-    11b4:	31 c0                	xor    %eax,%eax
-    11b6:	40                   	inc    %eax
-    11b7:	89 d8                	mov    %ebx,%eax
-    11b9:	c9                   	leave  
-    11ba:	c3                   	ret    
-    11bb:	b8 00 00 00 00       	mov    $0x0,%eax
-    11c0:	5d                   	pop    %ebp
-    11c1:	c3                   	ret    
-    11c2:	66 90                	xchg   %ax,%ax
+    11b4:	b8 01 00 00 00       	mov    $0x1,%eax
+    11b9:	89 c0                	mov    %eax,%eax
+    11bb:	c9                   	leave  
+    11bc:	c3                   	ret    
+    11bd:	b8 00 00 00 00       	mov    $0x0,%eax
+    11c2:	5d                   	pop    %ebp
+    11c3:	c3                   	ret    
     11c4:	66 90                	xchg   %ax,%ax
     11c6:	66 90                	xchg   %ax,%ax
     11c8:	66 90                	xchg   %ax,%ax

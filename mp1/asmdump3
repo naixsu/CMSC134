@@ -173,7 +173,7 @@ Disassembly of section .text:
     11b2:	89 e5                	mov    %esp,%ebp
     11b4:	31 c0                	xor    %eax,%eax
     11b6:	40                   	inc    %eax
-    11b7:	89 d8                	mov    %ebx,%eax
+    11b7:	89 c3                	mov    %eax,%ebx
     11b9:	c9                   	leave  
     11ba:	c3                   	ret    
     11bb:	b8 00 00 00 00       	mov    $0x0,%eax
