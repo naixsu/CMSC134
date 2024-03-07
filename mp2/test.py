@@ -1,14 +1,15 @@
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
-import binascii
+# This is for godot integration soon™️ experience
 
-keyPair = RSA.generate(3072)
+import sys
 
-pubKey = keyPair.publickey()
-print(f"Public key:  (n={hex(pubKey.n)}, e={hex(pubKey.e)})")
-pubKeyPEM = pubKey.exportKey()
-print(pubKeyPEM.decode('ascii'))
+def test_function(test):
+    print(f"Testing function: {test}")
 
-print(f"Private key: (n={hex(pubKey.n)}, d={hex(keyPair.d)})")
-privKeyPEM = keyPair.exportKey()
-print(privKeyPEM.decode('ascii'))
+def main():
+    args = sys.argv
+    test_function(args[1])
+    
+
+if __name__ == "__main__":
+    main()
+    
