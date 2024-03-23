@@ -54,14 +54,14 @@ def verify_then_decrypt(encrypted_message: bytes,
     
 
 def main() -> None:
-    num_bytes = 1024 # Keep this at >=1024. Idk why it's at min 1024
-    private_key_encryption, public_key_encryption = generate_keypair(num_bytes=num_bytes)
-    private_key_signing, public_key_signing = generate_keypair(num_bytes=num_bytes)
-    
     message = input("Enter message: ")
     if len(message) > 140:
         print("Damn, that's a lot of characters. I'm not running 😩")
         return 
+    
+    num_bytes = 1024 # Keep this at >=1024. Idk why it's at min 1024
+    private_key_encryption, public_key_encryption = generate_keypair(num_bytes=num_bytes)
+    private_key_signing, public_key_signing = generate_keypair(num_bytes=num_bytes)
 
     # Tabulate
     headers = ["Purpose", "Private Key", "Public Key"]
