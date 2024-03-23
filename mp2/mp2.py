@@ -57,9 +57,9 @@ def main() -> None:
     private_key_encryption, public_key_encryption = generate_keypair(num_bytes=num_bytes)
     private_key_signing, public_key_signing = generate_keypair(num_bytes=num_bytes)
     
-    message = "Hello"
+    message = input("Enter message: ")
     if len(message) > 140:
-        print("Message over the character limit.")
+        print("Damn, that's a lot of characters. I'm not running 😩")
         return 
 
     print(f"Original Message: {message}\n")
