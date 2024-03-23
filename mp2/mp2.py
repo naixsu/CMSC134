@@ -1,4 +1,5 @@
 from typing import Union
+from tabulate import tabulate
 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
@@ -61,6 +62,15 @@ def main() -> None:
     if len(message) > 140:
         print("Damn, that's a lot of characters. I'm not running 😩")
         return 
+
+    # Tabulate
+    headers = ["Purpose", "Private Key", "Public Key"]
+    data = [
+        ["Encryption", private_key_encryption, public_key_encryption],
+        ["Signing", private_key_signing, public_key_signing],
+    ]
+    
+    print(tabulate(data, headers=headers, tablefmt="grid"))
 
     print(f"Original Message: {message}\n")
     
