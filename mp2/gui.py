@@ -239,7 +239,7 @@ class App(customtkinter.CTk):
                 self.delete_keypairs_button.configure(state="normal")
 
     def sidebar_generate_encryption(self):
-        if not self.bytes_entry.get():
+        if not self.bytes_entry.get() or not isinstance(self.bytes_entry.get(), int):
             num_bytes = 1024
         else:
             num_bytes = int(self.bytes_entry.get())
@@ -248,7 +248,7 @@ class App(customtkinter.CTk):
         self.init_keys()
     
     def sidebar_generate_signing(self):
-        if not self.bytes_entry.get():
+        if not self.bytes_entry.get() or not isinstance(self.bytes_entry.get(), int):
             num_bytes = 1024
         else:
             num_bytes = int(self.bytes_entry.get())
