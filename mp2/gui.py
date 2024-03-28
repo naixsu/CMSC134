@@ -101,7 +101,7 @@ class App(customtkinter.CTk):
         self.sidebar_width = 200
         self.scrollable_width = 200
         # self.geometry(f"{1100}x{580}")
-        self.geometry(f"{1400}x{750}")
+        self.geometry(f"{1440}x{750}")
 
         # configure grid layout (4x4)
         # self.grid_columnconfigure(1, weight=1)
@@ -141,9 +141,13 @@ class App(customtkinter.CTk):
         self.verify_button.grid(row=8, column=0, padx=20, pady=(10, 5))
         # self.verify_button.configure(state="disabled") # disable initially
         
+        ## Bottom Panel Frame
+        self.bottom_panel_frame = customtkinter.CTkFrame(self, corner_radius=0)
+        self.bottom_panel_frame.grid(row=11, column=0, columnspan=5, sticky="nsew")
         
-        self.logs_textbox = customtkinter.CTkTextbox(self.sidebar_frame, width=self.sidebar_width, height=200)
-        self.logs_textbox.grid(row=9, column=0, padx=20, pady=(30, 5))
+        
+        self.logs_textbox = customtkinter.CTkTextbox(self.bottom_panel_frame, width=1400, height=25)
+        self.logs_textbox.grid(row=0, column=0, padx=20, pady=(30, 5), sticky="nsew")
         self.logs_textbox.insert("0.0", "Logs go here")
         self.logs_textbox.configure(state="disabled")
         
