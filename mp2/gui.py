@@ -125,10 +125,10 @@ class App(customtkinter.CTk):
         self.generate_signing_button.grid(row=3, column=0, padx=20, pady=(10, 5))
         
         self.file_num_entry = customtkinter.CTkEntry(self.sidebar_frame, width=self.sidebar_width, placeholder_text="File Number")
-        self.file_num_entry.grid(row=4, column=0, padx=20, pady=(30, 5))
+        self.file_num_entry.grid(row=10, column=0, padx=20, pady=(30, 5))
         
         self.delete_keypairs_button = customtkinter.CTkButton(self.sidebar_frame, width=self.sidebar_width, text="Delete Files", command=self.sidebar_delete_files)
-        self.delete_keypairs_button.grid(row=5, column=0, padx=20, pady=(10, 5))
+        self.delete_keypairs_button.grid(row=11, column=0, padx=20, pady=(10, 5))
         
         self.text_entry = customtkinter.CTkTextbox(self.sidebar_frame, width=self.sidebar_width, height=100)
         self.text_entry.grid(row=6, column=0, padx=20, pady=(15, 5))
@@ -139,7 +139,14 @@ class App(customtkinter.CTk):
         # self.sign_button.configure(state="disabled") # disable initially
         self.verify_button = customtkinter.CTkButton(self.sidebar_frame, width=self.sidebar_width, text="Verify", command=self.sidebar_verify_then_decrypt)
         self.verify_button.grid(row=8, column=0, padx=20, pady=(10, 5))
-        # self.verify_button.configure(state="disabled") # disable initially
+        self.verify_button.configure(state="disabled") # disable initially
+        
+        self.message_text = """1. Enter a value for Bytes, generate the Encryption and Signing keys by pressing the respective buttons.\n
+2. Select the desired keys to use, presented in the main window.\n
+3. Enter a message to encrypt and sign.\n
+4. Click verify to test out the encryption and decryption considering the selected keys."""
+        self.message = customtkinter.CTkLabel(self.sidebar_frame, width=self.sidebar_width, height=90, wraplength=self.sidebar_width, text=self.message_text, justify="left")
+        self.message.grid(row=9, column=0, padx=20, pady=(15, 5))
         
         ## Bottom Panel Frame
         self.bottom_panel_frame = customtkinter.CTkFrame(self, corner_radius=0)
@@ -192,14 +199,21 @@ class App(customtkinter.CTk):
         self.init_textboxes()
     
         ## Binds     
-        self.bytes_entry.bind("<KeyRelease>", self.update_button_states)
-        self.file_num_entry.bind("<KeyRelease>", self.update_button_states)
-    
+        self.bytes_entry.bind("<KeyRelease>", self.update_bytes_entry_button_states)
+        self.file_num_entry.bind("<KeyRelease>", self.update_file_num_button_states)
+        self.bind("<Button-1>", self.update_verify_button_states)
+
+        # Disable initially
+        self.generate_encryption_button.configure(state="disabled")
+        self.generate_signing_button.configure(state="disabled")
+        self.delete_keypairs_button.configure(state="disabled")
+        
     def init_textboxes(self):
         self.encryption_private.init_textbox(self.textbox_encryption_private)
         self.encryption_public.init_textbox(self.textbox_encryption_public)
         self.signing_private.init_textbox(self.textbox_signing_private)
         self.signing_public.init_textbox(self.textbox_signing_public)
+        
     
     def init_keys(self):
         priv = "keys\private"
@@ -219,28 +233,41 @@ class App(customtkinter.CTk):
         self.signing_private.init_items(priv_files, type="signing")
         self.encryption_public.init_items(pub_files, type="encryption")
         self.signing_public.init_items(pub_files, type="signing")
-
-    def update_button_states(self, type, event=None):
-        if type == "bytes_entry":
-            entry = self.bytes_entry.get()
         
-            if not entry.isdigit():
-                self.generate_encryption_button.configure(state="disabled")
-                self.generate_signing_button.configure(state="disabled")
-            else:
-                self.generate_encryption_button.configure(state="normal")
-                self.generate_signing_button.configure(state="normal")
+    def update_verify_button_states(self, type, event=None):
+        if None in [self.encryption_private.button_contents, self.encryption_public.button_contents, self.signing_private.button_contents, self.signing_public.button_contents]:
+            self.verify_button.configure(state="disabled")
         else:
-            entry = self.file_num_entry.get()
-        
-            if not entry.isdigit():
-                self.delete_keypairs_button.configure(state="disabled")
-            else:
-                self.delete_keypairs_button.configure(state="normal")
+            self.verify_button.configure(state="normal")
+            
+
+    def update_file_num_button_states(self, type, event=None):
+        entry = self.file_num_entry.get()
+    
+        if not entry.isdigit():
+            self.delete_keypairs_button.configure(state="disabled")
+        else:
+            self.delete_keypairs_button.configure(state="normal")
+                
+    def update_bytes_entry_button_states(self, type, event=None):
+        entry = self.bytes_entry.get()
+    
+        if not entry.isdigit():
+            self.generate_encryption_button.configure(state="disabled")
+            self.generate_signing_button.configure(state="disabled")
+        else:
+            self.generate_encryption_button.configure(state="normal")
+            self.generate_signing_button.configure(state="normal")
 
     def sidebar_generate_encryption(self):
         if not self.bytes_entry.get() or not isinstance(self.bytes_entry.get(), int):
             num_bytes = 1024
+            self.logs = {
+                "status": "Warning",
+                "message": "RSA key length should be >=1024; Using 1024 RSA key length for generating Encryption Key."
+            }
+            self.update_logs()
+            
         else:
             num_bytes = int(self.bytes_entry.get())
 
@@ -250,6 +277,12 @@ class App(customtkinter.CTk):
     def sidebar_generate_signing(self):
         if not self.bytes_entry.get() or not isinstance(self.bytes_entry.get(), int):
             num_bytes = 1024
+            self.logs = {
+                "status": "Warning",
+                "message": "RSA key length should be >=1024; Using 1024 RSA key length for generating Signing Key."
+            }
+            self.update_logs()
+            
         else:
             num_bytes = int(self.bytes_entry.get())
 
