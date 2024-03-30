@@ -1,6 +1,8 @@
 import os
 import re
 
+from typing import Union
+
 from Crypto.PublicKey import RSA
 
 def generate_keypair(num_bytes: int = 1024,
@@ -53,7 +55,7 @@ def generate_keypair(num_bytes: int = 1024,
 
     return private_key, public_key
 
-def delete_files(file_num: int = 0) -> list[str]:
+def delete_files(file_num: int = 0) -> Union[str, list[str]]:
     """Deletes the corresponding private and public key pairs identified by a file number.
 
     Args:
@@ -74,7 +76,7 @@ def delete_files(file_num: int = 0) -> list[str]:
             for filename in os.listdir(path):
                 os.remove(os.path.join(path, filename))
         # print("Deleted all files.")
-        return ["Deleted all files."]
+        return "Deleted all files."
 
     deleted_list = []
     for key_dir in os.listdir(folder_name):

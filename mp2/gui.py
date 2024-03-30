@@ -101,7 +101,7 @@ class App(customtkinter.CTk):
         self.sidebar_width = 200
         self.scrollable_width = 200
         # self.geometry(f"{1100}x{580}")
-        self.geometry(f"{1440}x{750}")
+        self.geometry(f"{1440}x{850}")
 
         # configure grid layout (4x4)
         # self.grid_columnconfigure(1, weight=1)
@@ -153,8 +153,8 @@ class App(customtkinter.CTk):
         self.bottom_panel_frame.grid(row=11, column=0, columnspan=5, sticky="nsew")
         
         
-        self.logs_textbox = customtkinter.CTkTextbox(self.bottom_panel_frame, width=1400, height=25)
-        self.logs_textbox.grid(row=0, column=0, padx=20, pady=(30, 5), sticky="nsew")
+        self.logs_textbox = customtkinter.CTkTextbox(self.bottom_panel_frame, width=1400, height=150)
+        self.logs_textbox.grid(row=0, column=0, padx=20, pady=(15, 5), sticky="nsew")
         self.logs_textbox.insert("0.0", "Logs go here")
         self.logs_textbox.configure(state="disabled")
         
@@ -206,7 +206,7 @@ class App(customtkinter.CTk):
         # Disable initially
         self.generate_encryption_button.configure(state="disabled")
         self.generate_signing_button.configure(state="disabled")
-        self.delete_keypairs_button.configure(state="disabled")
+        # self.delete_keypairs_button.configure(state="disabled")
         
     def init_textboxes(self):
         self.encryption_private.init_textbox(self.textbox_encryption_private)
@@ -264,7 +264,7 @@ class App(customtkinter.CTk):
             num_bytes = 1024
             self.logs = {
                 "status": "Warning",
-                "message": "RSA key length should be >=1024; Using 1024 RSA key length for generating Encryption Key."
+                "warning_message": "RSA key length should be >=1024; Using 1024 RSA key length for generating Encryption Key."
             }
             self.update_logs()
             
@@ -279,7 +279,7 @@ class App(customtkinter.CTk):
             num_bytes = 1024
             self.logs = {
                 "status": "Warning",
-                "message": "RSA key length should be >=1024; Using 1024 RSA key length for generating Signing Key."
+                "warning_message": "RSA key length should be >=1024; Using 1024 RSA key length for generating Signing Key."
             }
             self.update_logs()
             
@@ -332,10 +332,10 @@ class App(customtkinter.CTk):
             )
             self.logs = {
                 "status": "Success",
-                "encrypted": encrypted_message,
+                "encrypted_message": encrypted_message,
                 "signature": signature,
             }
-            self.update_logs()
+            # self.update_logs()
             return encrypted_message, signature
             
         except Exception as e:
@@ -360,6 +360,7 @@ class App(customtkinter.CTk):
             self.logs = {
                 "status": "Success",
                 "decrypted_message": decrypted_message,
+                **self.logs,
             }
         
         except Exception as e:
@@ -378,7 +379,20 @@ class App(customtkinter.CTk):
             self.logs_textbox.insert("0.0", "Logs go here")
             return
         
-        self.logs_textbox.insert("0.0", self.logs)
+        if self.logs["status"] == "Warning":
+            self.logs_textbox.insert("0.0", self.logs["warning_message"])
+        elif self.logs["status"] == "Success":
+            line_num = 0
+            for key, value in self.logs.items():
+                if value == "Success":
+                    continue
+                if value is not None:
+                    message = f"{key.capitalize().replace('_', ' ')}: {value}\n"
+                    self.logs_textbox.insert(f"{line_num}.0", message) # insert at line line_num character 0
+                    line_num += 1
+                
+        elif self.logs["status"] == "Error":
+            self.logs_textbox.insert("0.0", self.logs["error_message"])     
         
 if __name__ == "__main__":
     app = App()
