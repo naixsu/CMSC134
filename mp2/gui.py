@@ -76,6 +76,7 @@ class ScrollableButtonFrame(customtkinter.CTkScrollableFrame):
         
 
     def delete_item(self, file_num):
+        self.delete_item_extended()
         if file_num == 0:
             for btn in self.button_list:
                 btn.destroy()
@@ -90,6 +91,12 @@ class ScrollableButtonFrame(customtkinter.CTkScrollableFrame):
                 btn.destroy()
                 self.button_list.remove(btn)
                 return
+            
+    def delete_item_extended(self):
+        self.textbox.configure(state="normal")        
+        self.textbox.delete("0.0", "end")        
+        self.textbox.configure(state="disabled")
+        self.button_contents = None
 
 class App(customtkinter.CTk):
     def __init__(self):
