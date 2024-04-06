@@ -154,7 +154,7 @@ Input 2
 
 The keys used are included in the submission. Showing the log and screenshots for the following inputs:
 
-- Input: **`Sui**-**chan wa kyou mo kawaii` ****
+- Input: `Sui-chan wa kyou mo kawaii` 
 - Encryption & Signing Keys: `*_1.pem`
 
 ![Untitled](mp2_writeup/Untitled%206.png)
