@@ -21,6 +21,12 @@ Explaining the process of encryption & signing, verifying & decryption
     - Simple testing of RSA-1024 encryption and SHA265 hashing.
     - New encryption and signing keys are used when the program is run.
 
+## Python Packages Used
+```bash
+pip install pycrypto
+pip install customtkinter
+```
+
 # Graphical User Interface
 
 ![Untitled](mp2_writeup/Untitled.png)
