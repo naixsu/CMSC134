@@ -76,6 +76,7 @@ class ScrollableButtonFrame(customtkinter.CTkScrollableFrame):
         
 
     def delete_item(self, file_num):
+        self.delete_item_extended()
         if file_num == 0:
             for btn in self.button_list:
                 btn.destroy()
@@ -90,6 +91,12 @@ class ScrollableButtonFrame(customtkinter.CTkScrollableFrame):
                 btn.destroy()
                 self.button_list.remove(btn)
                 return
+            
+    def delete_item_extended(self):
+        self.textbox.configure(state="normal")        
+        self.textbox.delete("0.0", "end")        
+        self.textbox.configure(state="disabled")
+        self.button_contents = None
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -258,9 +265,23 @@ class App(customtkinter.CTk):
         else:
             self.generate_encryption_button.configure(state="normal")
             self.generate_signing_button.configure(state="normal")
+            
+    def is_rsa_keyl_invalid(self, input:str):
+        if not input: # no input
+            return True
+        
+        # test if valid int and less than 1024
+        try:
+            x = int(input)
+            if x < 1024:
+                return True
+            else:
+                return False
+        except:
+            return True
 
     def sidebar_generate_encryption(self):
-        if not self.bytes_entry.get() or not isinstance(self.bytes_entry.get(), int):
+        if self.is_rsa_keyl_invalid(self.bytes_entry.get()):
             num_bytes = 1024
             self.logs = {
                 "status": "Warning",
@@ -270,12 +291,17 @@ class App(customtkinter.CTk):
             
         else:
             num_bytes = int(self.bytes_entry.get())
+            self.logs = {
+                "status": "Success",
+                "message": "Generated encryption key with RSA key length " + str(num_bytes)
+            }
+            self.update_logs()
 
         generate_keypair(num_bytes=num_bytes, type="encryption")
         self.init_keys()
     
     def sidebar_generate_signing(self):
-        if not self.bytes_entry.get() or not isinstance(self.bytes_entry.get(), int):
+        if self.is_rsa_keyl_invalid(self.bytes_entry.get()):
             num_bytes = 1024
             self.logs = {
                 "status": "Warning",
@@ -285,6 +311,11 @@ class App(customtkinter.CTk):
             
         else:
             num_bytes = int(self.bytes_entry.get())
+            self.logs = {
+                "status": "Success",
+                "message": "Generated signing key with RSA key length " + str(num_bytes)
+            }
+            self.update_logs()
 
         generate_keypair(num_bytes=num_bytes, type="signing")
         self.init_keys()
