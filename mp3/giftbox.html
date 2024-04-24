@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<title>Free Robux</title>
+<body>
+    <script> 
+        let Window; 
+
+        // Function that open the new Window 
+        function windowOpen() { 
+            Window = window.open( 
+                "gift.html", 
+                "_blank", "width=100, height=100, top=1, left=1, location=0");
+        } 
+          
+        // function that Closes the open Window 
+        function windowClose() { 
+            Window.close(); 
+        } 
+
+        // Function to delay windowClose
+        function delayClose() {
+            setTimeout(windowClose, 1000); // Adjust 2000 (milliseconds) to your desired delay
+        }
+    </script> 
+    <h1>Free Gift Card Giveaway</h1>
+    <button onclick="windowOpen();delayClose();">Gacha x10 (Free)</button>
+
+
+</body>
+</html>
