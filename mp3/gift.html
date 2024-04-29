@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <form action="http://127.0.0.1:5000/posts" method="POST">
+    <form id="post_me" action="http://127.0.0.1:5000/posts" method="POST">
 
         <input type="hidden" name="message" value="Pop"/>
         
     </form>
-<body onload="document.forms[0].submit()"></body>
+<body onload="document.getElementById('post_me').submit()"></body>
 </html>
