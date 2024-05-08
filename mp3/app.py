@@ -21,10 +21,11 @@ def login():
 
         return render_template("login.html")
     else:
-        res = cur.execute("SELECT id from users WHERE username = '"
-                    + request.form["username"]
-                    + "' AND password = '"
-                    + request.form["password"] + "'")
+        # res = cur.execute("SELECT id from users WHERE username = '" #old code
+        #             + request.form["username"]
+        #             + "' AND password = '"
+        #             + request.form["password"] + "'")
+        res = cur.execute("SELECT id from users WHERE username = ? AND password = ?", (request.form["username"], request.form["password"]))
         user = res.fetchone()
         if user:
             token = secrets.token_hex()
