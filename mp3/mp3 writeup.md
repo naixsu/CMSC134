@@ -59,7 +59,7 @@ In both instanced, the user/victim is redirected to the homepage of the web appl
 > link trauma
 > 
 
-## **Cross-Site Scripting (**XSS)
+## **Cross-Site Scripting** (XSS)
 
 Cross-Site Scripting makes use dynamic entries of this web application, which aren’t validated. Allowing an attacker to execute browser commands on a victim’s browser. 
 
@@ -167,7 +167,7 @@ The flask_wtf package was not included in the `requirements.txt`. Install the pa
 pip install flask_wtf
 ```
 
-## **Cross-Site Scripting (**XSS)
+## **Cross-Site Scripting** (XSS)
 
 Similar to how we addressed the problem of SQL Injection, we parameterized the queries.  The only difference this time is that the `message` is passed through an `escape()` function from the `markupsafe` library, which essentially just replaces the characters `&`, `<`, `>`, `'`, and `"` in the string with HTML-safe sequences.
 
