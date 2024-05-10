@@ -25,7 +25,7 @@ The attacker would be able to authenticate themselves as Alice. Alice’s creden
 
 To perform the attack, open the login page [http://127.0.0.1:5000/login](http://127.0.0.1:5000/login).  Input `' OR 1=1 --` on any of the text field in the page. After, the web application should authenticate the attacker as Alice, redirecting them to Alice home page on [http://127.0.0.1:5000/home](http://127.0.0.1:5000/home).
 
-[SQL injection attack to bypass authentication](mp3_writeup/Screencast_from_2024-05-08_20-36-50.webm)
+[SQL injection attack to bypass authentication](mp3_writeup/Screencast_from_2024-05-08_20-36-50.mp4)
 
 SQL injection attack to bypass authentication
 
@@ -44,11 +44,11 @@ Cross-Site Request Forgery makes use of the fact the use have already authentica
 
 The attacker would be able to submit post entries through the posts POST method. For the attack to be successful, the victim should have authenticate themselves before hand. When the victim clicks a button either through a malicious webpage/email, it sends the POST method to the server. Essentially, posting a message as the victim (their authenticated account). 
 
-[CSRF attack through a malicious website.](mp3_writeup/Screencast_from_2024-05-08_20-42-52.webm)
+[CSRF attack through a malicious website.](mp3_writeup/Screencast_from_2024-05-08_20-42-52.mp4)
 
 CSRF attack through a malicious website.
 
-[CSRF attack through a malicious email.](mp3_writeup/Screencast_from_2024-05-08_20-47-55.webm)
+[CSRF attack through a malicious email.](mp3_writeup/Screencast_from_2024-05-08_20-47-55.mp4)
 
 CSRF attack through a malicious email.
 
@@ -59,7 +59,7 @@ In both instanced, the user/victim is redirected to the homepage of the web appl
 > link trauma
 > 
 
-## **Cross-Site Scripting (**XSS)
+## **Cross-Site Scripting** (XSS)
 
 Cross-Site Scripting makes use dynamic entries of this web application, which aren’t validated. Allowing an attacker to execute browser commands on a victim’s browser. 
 
@@ -71,7 +71,7 @@ The attacker would be able to add malicious content in the web application throu
 
 To perform an attack, authenticate as a user in the web application. Open the home page [http://127.0.0.1:5000/home](http://127.0.0.1:5000/home). A text field allows for the entry of posts, an attacker can attach HTML scripts to the page. After posting, the said script would execute as soon the user opens their home page. 
 
-[XSS attack showing web application vulnerability.](mp3_writeup/Screencast_from_2024-05-08_20-55-37.webm)
+[XSS attack showing web application vulnerability.](mp3_writeup/Screencast_from_2024-05-08_20-55-37.mp4)
 
 XSS attack showing web application vulnerability.
 
@@ -79,7 +79,7 @@ XSS attack showing web application vulnerability.
 <script>alert("XSS attack!");</script>
 ```
 
-[This attack adds a form in the web application as message. When the victim opens the home page, the said form would be submitted automatically. Infinitely until the user/victim closes the window. ](mp3_writeup/Screencast_from_2024-05-08_21-12-11.webm)
+[This attack adds a form in the web application as message. When the victim opens the home page, the said form would be submitted automatically. Infinitely until the user/victim closes the window. ](mp3_writeup/Screencast_from_2024-05-08_21-12-11.mp4)
 
 This attack adds a form in the web application as message. When the victim opens the home page, the said form would be submitted automatically. Infinitely until the user/victim closes the window. 
 
@@ -115,7 +115,7 @@ In this demonstration, the victim is using the Firefox Browser in Ubuntu compute
 
 For demonstration purposes, the session id from the Firefox Browser (victim) is copied to Chrome Browser (attacker). But in real life scenarios for example, an attacker may use malware to obtain the victim’s cookies, XSS attacks or sniffed in an insecure channel.
 
-[Demonstration of Session Hijacking](mp3_writeup/Screencast_from_2024-05-10_21-41-50.webm)
+[Demonstration of Session Hijacking](mp3_writeup/Screencast_from_2024-05-10_21-41-50.mp4)
 
 ![https://cdn.7tv.app/emote/61a78600e9684edbbc37c61c/4x.webp](https://cdn.7tv.app/emote/61a78600e9684edbbc37c61c/4x.webp)
 
@@ -167,7 +167,7 @@ The flask_wtf package was not included in the `requirements.txt`. Install the pa
 pip install flask_wtf
 ```
 
-## **Cross-Site Scripting (**XSS)
+## **Cross-Site Scripting** (XSS)
 
 Similar to how we addressed the problem of SQL Injection, we parameterized the queries.  The only difference this time is that the `message` is passed through an `escape()` function from the `markupsafe` library, which essentially just replaces the characters `&`, `<`, `>`, `'`, and `"` in the string with HTML-safe sequences.
 
