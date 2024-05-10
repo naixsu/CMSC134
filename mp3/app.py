@@ -36,7 +36,7 @@ def login():
                         + str(user[0]) + ", '" + token + "');")
             con.commit()
             response = redirect("/home")
-            response.set_cookie("session_token", token, secure=True, httponly=True)
+            response.set_cookie("session_token", token)
             return response
         else:
             return render_template("login.html", error="Invalid username and/or password!")
