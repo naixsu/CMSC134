@@ -82,7 +82,7 @@ def logout():
     if request.cookies.get("session_token"):
         res = cur.execute("SELECT users.id, username FROM users INNER JOIN sessions ON "
                           + "users.id = sessions.user WHERE sessions.token = '"
-                          + request.cookies.get("session_token") + "' AND sessions.ipaddress = '" + str(request.remote_addr))
+                          + request.cookies.get("session_token") + "' AND sessions.ipaddress = '" + str(request.remote_addr) + "';")
         user = res.fetchone()
         if user:
             cur.execute("DELETE FROM sessions WHERE user = " + str(user[0]) + ";")
