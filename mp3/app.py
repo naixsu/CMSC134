@@ -17,7 +17,7 @@ def login():
         if request.cookies.get("session_token"):
             res = cur.execute("SELECT username FROM users INNER JOIN sessions ON "
                               + "users.id = sessions.user WHERE sessions.token = '"
-                              + request.cookies.get("session_token") + "'")
+                              + request.cookies.get("session_token") + "' AND sessions.ipaddress = '" + str(request.remote_addr) + "'")
             user = res.fetchone()
             if user:
                 return redirect("/home")
@@ -32,8 +32,8 @@ def login():
         user = res.fetchone()
         if user:
             token = secrets.token_hex()
-            cur.execute("INSERT INTO sessions (user, token) VALUES ("
-                        + str(user[0]) + ", '" + token + "');")
+            cur.execute("INSERT INTO sessions (user, token, ipaddress) VALUES ("
+                        + str(user[0]) + ", '" + token + "', '" + str(request.remote_addr)  + "');")
             con.commit()
             response = redirect("/home")
             response.set_cookie("session_token", token)
@@ -48,7 +48,7 @@ def home():
     if request.cookies.get("session_token"):
         res = cur.execute("SELECT users.id, username FROM users INNER JOIN sessions ON "
                           + "users.id = sessions.user WHERE sessions.token = '"
-                          + request.cookies.get("session_token") + "';")
+                          + request.cookies.get("session_token") + "' AND sessions.ipaddress = '" + str(request.remote_addr) + "';")
         user = res.fetchone()
         if user:
             res = cur.execute("SELECT message FROM posts WHERE user = " + str(user[0]) + ";")
@@ -64,7 +64,7 @@ def posts():
     if request.cookies.get("session_token"):
         res = cur.execute("SELECT users.id, username FROM users INNER JOIN sessions ON "
                           + "users.id = sessions.user WHERE sessions.token = '"
-                          + request.cookies.get("session_token") + "';")
+                          + request.cookies.get("session_token") + "' AND sessions.ipaddress = '" + str(request.remote_addr) + "';")
         user = res.fetchone()
         if user:
             # cur.execute("INSERT INTO posts (message, user) VALUES ('"
@@ -82,7 +82,7 @@ def logout():
     if request.cookies.get("session_token"):
         res = cur.execute("SELECT users.id, username FROM users INNER JOIN sessions ON "
                           + "users.id = sessions.user WHERE sessions.token = '"
-                          + request.cookies.get("session_token") + "'")
+                          + request.cookies.get("session_token") + "' AND sessions.ipaddress = '" + str(request.remote_addr))
         user = res.fetchone()
         if user:
             cur.execute("DELETE FROM sessions WHERE user = " + str(user[0]) + ";")
