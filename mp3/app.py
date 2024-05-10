@@ -2,10 +2,13 @@ import secrets
 import sqlite3
 
 from flask import Flask, request, render_template, redirect
-
+from markupsafe import escape
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 con = sqlite3.connect("app.db", check_same_thread=False)
+app.config["SECRET_KEY"] = secrets.token_hex()
+csrf = CSRFProtect(app)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -64,9 +67,10 @@ def posts():
                           + request.cookies.get("session_token") + "';")
         user = res.fetchone()
         if user:
-            cur.execute("INSERT INTO posts (message, user) VALUES ('"
-                        + request.form["message"] + "', " + str(user[0]) + ");")
-            con.commit()
+            # cur.execute("INSERT INTO posts (message, user) VALUES ('"
+            #             + request.form["message"] + "', " + str(user[0]) + ");") old code
+            cur.execute("INSERT INTO posts (message, user) VALUES (?, ?);", (escape(request.form["message"]), user[0]))
+            con.commit() 
             return redirect("/home")
 
     return redirect("/login", error="test")
