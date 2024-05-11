@@ -35,7 +35,7 @@ SQL injection attack to bypass authentication
 
 - [http://127.0.0.1:5000/home](http://127.0.0.1:5000/home)
 
-The structure of the database in regards with the post have three columns. The following are `posts.id`, `posts.message`, and `posts.user`. As the web application processes the posts through a database query, it is possible to manipulate the post entry to modify the `posts.user`. This allows for anyone to post a message to other users' home page; they can also employ other attacks such as XSS. In the demonstration, the post would be show up on user 2's home page.
+The structure of the database in regards with the post have three columns. The following are `posts.id`, `posts.message`, and `posts.user`. As the web application processes the posts through a database query, it is possible to manipulate the post entry to modify the `posts.user`. This allows for anyone to post a message to other users' home page; they can also employ other attacks such as XSS. In the demonstration, the post would be show up on user 2's home page. It is possible to add post to existing or future users.
 
 [SQL injection attack to post as a different user](mp3_writeup/Screencast_from_2024-05-11_20-58-11.webm)
 
