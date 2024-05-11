@@ -31,6 +31,20 @@ SQL injection attack to bypass authentication
 
 ![https://cdn.7tv.app/emote/60b2876f4f32610f15bfc5dc/4x.webp](https://cdn.7tv.app/emote/60b2876f4f32610f15bfc5dc/4x.webp)
 
+### Post as a different user
+
+- [http://127.0.0.1:5000/home](http://127.0.0.1:5000/home)
+
+The structure of the database in regards with the post have three columns. The following are `posts.id`, `posts.message`, and `posts.user`. As the web application processes the posts through a database query, it is possible to manipulate the post entry to modify the `posts.user`. This allows for anyone to post a message to other users' home page; they can also employ other attacks such as XSS. In the demonstration, the post would be show up on user 2's home page.
+
+[SQL injection attack to post as a different user](mp3_writeup/Screencast_from_2024-05-11_20-58-11.webm)
+
+SQL injection attack to post as a different user
+
+```text
+post for 2', 2); --
+```
+
 > ‘; DROP TABLE USERS
 > 
 
@@ -40,7 +54,7 @@ Cross-Site Request Forgery makes use of the fact the use have already authentica
 
 ### Posting as the authenticated user
 
-- [http://127.0.0.1:5000/posts](http://127.0.0.1:5000/home)
+- [http://127.0.0.1:5000/posts](http://127.0.0.1:5000/posts)
 
 The attacker would be able to submit post entries through the posts POST method. For the attack to be successful, the victim should have authenticate themselves before hand. When the victim clicks a button either through a malicious webpage/email, it sends the POST method to the server. Essentially, posting a message as the victim (their authenticated account). 
 
@@ -212,13 +226,15 @@ response.set_cookie("session_token", token)
 response.set_cookie("session_token", token, secure=True, httponly=True)
 ```
 
-Second, identifying the user with their IP address. It is possible for an attacker to obtain the cookie or session id of their victim through malware. Thus, having the IP address to identify which device the user is on alongside the session id, ensures the authenticity of the connection, The database `app.db` was modified to accommodate to this change, adding the user’s IP address on their session id. Other database queries that involves the `sessions` table were also modified. It is also possible to use a 
+Second, identifying the user with their IP address. It is possible for an attacker to obtain the cookie or session id of their victim through malware. Thus, having the IP address to identify which device the user is on alongside the session id, ensures the authenticity of the connection, The database `app.db` was modified to accommodate to this change, adding the user’s IP address on their session id. Other database queries that involves the `sessions` table were also modified.
 
+Adding entry to sessions table, for establishing authenticity with their session id (token) and IP address:
 ```sql
 ALTER TABLE sessions
 ADD COLUMN ipaddress [TEXT];
 ```
 
+Adding entry to sessions table, for establishing authenticity with their session id (token) and IP address:
 ```python
 cur.execute("INSERT INTO sessions (user, token, ipaddress) VALUES ("
                         + str(user[0]) + ", '" 
@@ -226,6 +242,7 @@ cur.execute("INSERT INTO sessions (user, token, ipaddress) VALUES ("
                         + str(request.remote_addr)  + "');")
 ```
 
+Checking authenticity with session id (token) and IP address:
 ```python
 if request.cookies.get("session_token"):
     res = cur.execute("SELECT users.id, username FROM users INNER JOIN sessions ON "
