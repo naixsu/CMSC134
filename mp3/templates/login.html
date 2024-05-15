@@ -10,6 +10,7 @@
       <label for="password">Password</label>
       <input name="password" type="password" />
       <input type="submit" value="Login" />
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
     {% if error %}<em>{{ error }}</em>{% endif %}
   </body>
